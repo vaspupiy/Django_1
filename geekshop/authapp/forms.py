@@ -42,6 +42,12 @@ class ShopUserRegisterForm(UserCreationForm):
             raise forms.ValidationError("Недопустимое имя")
         return data
 
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if ShopUser.objects.filter(email=data).exists():
+            raise forms.ValidationError("Email exists")
+        return data
+
 
 class ShopUserEditForm(UserChangeForm):
     class Meta:
@@ -69,4 +75,10 @@ class ShopUserEditForm(UserChangeForm):
         data = self.cleaned_data['first_name']
         if data.isdigit():
             raise forms.ValidationError("Недопустимое имя")
+        return data
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if ShopUser.objects.filter(email=data).exists():
+            raise forms.ValidationError("Email exists")
         return data

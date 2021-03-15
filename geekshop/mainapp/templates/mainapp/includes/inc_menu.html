@@ -5,8 +5,8 @@
         </a>
     </li>
     <li>
-        <a href="{% url 'products:products' %}"
-           {% if 'products' in request.resolver_match.route %}class="active"{% endif %}>
+        <a href="{% url 'products:index' %}"
+           {% if 'products' in request.resolver_match.namespace %}class="active"{% endif %}>
             продукты
         </a>
     </li>
@@ -37,3 +37,9 @@
         </li>
     {% endif %}
 </ul>
+<a href="#" class="search"></a>
+<a href="{% url 'basket:view' %}" class="basket">
+                <span>
+                    {{ basket }} {{ total }}
+                </span>
+</a>

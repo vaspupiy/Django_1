@@ -1,14 +1,11 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
-{% block content %}
+
+{% block menu %}
     <div class="slider">
         <div class="header clearfix">
-            <a href="index.html" class="logo"></a>
-
-                {% include 'mainapp/includes/inc_menu.html' %}
-
-            <a href="#" class="search"></a>
-            <a href="#" class="basket"></a>
+            <a href="{% url 'main' %}" class="logo"></a>
+            {% include 'mainapp/includes/inc_menu.html' %}
         </div>
         <div class="text-slider">
             <h3 class="green">тенденции</h3>
@@ -20,7 +17,9 @@
             <a href="#"></a><a href="#"></a><a href="#"></a>
         </div>
     </div>
+{% endblock %}
 
+{% block content %}
     <div class="featured">
         {% include 'mainapp/includes/inc_featured-menu.html' %}
         <a class="explore" href="#">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
@@ -30,7 +29,7 @@
             {% for product in products %}
                 <div class="block">
                     <a href='#'>
-                        <img src="/media/{{ product.image }}" alt={{ product.name}}>
+                        <img src="/media/{{ product.image }}" alt={{ product.name }}>
                         <div class="text">
                             <img src="{% static 'img/icon-hover.png' %}" alt={{ product.name }}>
                             <h4>{{ product.name }}</h4>
