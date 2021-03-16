@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=128, verbose_name='имя')),
-                ('image', models.ImageField(blank=True, upload_to='products_image')),
+                ('image', models.ImageField(blank=True, upload_to='products_images')),
                 ('short_desc', models.CharField(blank=True, max_length=64, verbose_name='краткое описание')),
                 ('description', models.TextField(blank=True, verbose_name='описание')),
                 ('price', models.DecimalField(decimal_places=2, default=0, max_digits=8, verbose_name='цена')),
