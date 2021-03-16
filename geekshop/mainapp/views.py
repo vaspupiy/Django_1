@@ -8,6 +8,12 @@ from mainapp.models import Product, ProductCategory
 from geekshop.settings import BASE_DIR
 
 
+def get_basket(user):
+    if user.is_authenticated:
+        return Basket.objects.filter(user=user)
+    return []
+
+
 def main(request):
     links_menu = [
         {'href': 'main_new', 'name': 'новинки'},
@@ -17,18 +23,13 @@ def main(request):
     content = {
         'title': 'Главная',
         'links_menu': links_menu,
-        'products': products
+        'products': products,
+        'basket': get_basket(request.user),
     }
     return render(request, 'mainapp/index.html', content)
 
 
 def products(request, pk=None):
-    basket = 0
-    total = 0
-    if request.user.is_authenticated:
-        basket = sum(list(Basket.objects.filter(user=request.user).values_list('quantity', flat=True)))
-        total_list = list(Basket.objects.filter(user=request.user).values_list('product__price', 'quantity'))
-        total = sum([i[0] * i[1] for i in total_list])
     title = 'продукты'
     links_menu = ProductCategory.objects.all()
 
@@ -45,8 +46,7 @@ def products(request, pk=None):
             'links_menu': links_menu,
             'category': category_item,
             'products': products_list,
-            'basket': basket,
-            'total': total
+            'basket': get_basket(request.user),
         }
 
         return render(request, 'mainapp/products_list.html', content)
@@ -57,8 +57,7 @@ def products(request, pk=None):
         'title': title,
         'links_menu': links_menu,
         'same_products': same_products,
-        'basket': basket,
-        'total': total
+        'basket': get_basket(request.user)
     }
 
     return render(request, 'mainapp/products.html', content)
@@ -69,6 +68,7 @@ def contact(request):
         locations = json.load(f)
     content = {
         'title': 'Контакты',
-        'locations': locations
+        'locations': locations,
+        'basket': get_basket(request.user),
     }
     return render(request, 'mainapp/contact.html', content)

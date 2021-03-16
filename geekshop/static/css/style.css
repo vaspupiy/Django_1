@@ -328,7 +328,9 @@ html, body {
 }
 
 .basket span {
+	display: inline-block;
 	margin-left: 25px;
+	font-size: 14px;
 }
 
 .clearfix:after {

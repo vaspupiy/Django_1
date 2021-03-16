@@ -40,6 +40,9 @@
 <a href="#" class="search"></a>
 <a href="{% url 'basket:view' %}" class="basket">
                 <span>
-                    {{ basket }} {{ total }}
+                    {% if basket %}
+                        {{ basket.0.total_cost|floatformat:0 }}&nbsp;руб
+                        ({{ basket.0.total_quantity }}&nbsp;шт)
+                    {% endif %}
                 </span>
 </a>
