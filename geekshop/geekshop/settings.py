@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'mainapp',
     'authapp',
+    'basketapp',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ MEDIA_ROOT = (
 )
 
 AUTH_USER_MODEL = 'authapp.ShopUser'
+
+LOGIN_URL = '/auth/login/'

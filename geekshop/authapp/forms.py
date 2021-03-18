@@ -12,7 +12,7 @@ class ShopUserLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'forms-control'
+            field.widget.attrs['class'] = 'form-control'
 
 
 class ShopUserRegisterForm(UserCreationForm):
@@ -34,12 +34,18 @@ class ShopUserRegisterForm(UserCreationForm):
 
     def clean_first_name(self):
         """
-        т.к. почта валидируется атоматом, и до моих проверок не доходит, сделал хоть что-то...
+        т.к. почта валидируется автоматом, и до моих проверок не доходит, сделал хоть что-то...
         проверка Имени -  не состоит ли только из чисел... :(
         """
         data = self.cleaned_data['first_name']
         if data.isdigit():
             raise forms.ValidationError("Недопустимое имя")
+        return data
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if ShopUser.objects.filter(email=data).exists():
+            raise forms.ValidationError("Email exists")
         return data
 
 
@@ -51,7 +57,7 @@ class ShopUserEditForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'forms-control'
+            field.widget.attrs['class'] = 'form-control'
             if field_name == 'password':
                 field.widget = forms.HiddenInput()
 
@@ -63,10 +69,17 @@ class ShopUserEditForm(UserChangeForm):
 
     def clean_first_name(self):
         """
-        т.к. почта валидируется атоматом, и до моих проверок не доходит, сделал хоть что-то...
+        т.к. почта валидируется автоматом, и до моих проверок не доходит, сделал хоть что-то...
         проверка Имени -  не состоит ли только из чисел
         """
         data = self.cleaned_data['first_name']
         if data.isdigit():
             raise forms.ValidationError("Недопустимое имя")
         return data
+
+
+    # def clean_email(self):
+    #     data = self.cleaned_data['email']
+    #     if ShopUser.objects.filter(email=data).exists():
+    #         raise forms.ValidationError("Email exists")
+    #     return data
