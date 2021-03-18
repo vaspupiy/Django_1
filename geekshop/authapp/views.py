@@ -22,8 +22,8 @@ def login(request):
         if user and user.is_active:
             auth.login(request, user)
             # print('request.POST', request.POST)
-            # if 'next' in request.POST.keys():
-            if request.POST['next']:
+            if 'next' in request.POST.keys():
+            # if request.POST['next']:
                 return HttpResponseRedirect(request.POST['next'])
             return HttpResponseRedirect(reverse('main'))
 
