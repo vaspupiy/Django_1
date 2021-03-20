@@ -9,7 +9,7 @@ from authapp.models import ShopUser
 
 
 def load_from_json(file_name):
-    with open(os.path.join(settings.BASE_DIR, f'mainapp/json/{file_name}.json'), encoding='utf-8') as file:
+    with open(os.path.join(settings.BASE_DIR, f'mainapp/json/{file_name}.json'), 'r', encoding='utf-8') as file:
         return json.load(file)
 
 

@@ -7,19 +7,30 @@ from django.urls import reverse
 
 
 def login(request):
-    print(request.POST)
-    login_form = ShopUserLoginForm(data=request.POST)
+    title = 'вход',
+
+    login_form = ShopUserLoginForm(data=request.POST or None)
+
+    # next = request.GET.get('next', '')
+    next = request.GET['next'] if 'next' in request.GET else ''
+
     if request.method == 'POST' and login_form.is_valid():
         username = request.POST['username']
         password = request.POST['password']
+
         user = auth.authenticate(username=username, password=password)
         if user and user.is_active:
             auth.login(request, user)
+            # print('request.POST', request.POST)
+            # if request.POST['next']:
+            if 'next' in request.POST.keys():
+                return HttpResponseRedirect(request.POST['next'])
             return HttpResponseRedirect(reverse('main'))
 
     content = {
-        'title': 'вход',
-        'login_form': login_form
+        'title': title,
+        'login_form': login_form,
+        'next': next,
     }
     return render(request, 'authapp/login.html', content)
 
@@ -48,16 +59,22 @@ def register(request):
 
 
 def edit(request):
-    if request.method == "POST":
+    title = 'редактирование'
+
+    if request.method == 'POST':
+        print('1')
         edit_form = ShopUserEditForm(request.POST, request.FILES, instance=request.user)
         if edit_form.is_valid():
+            print('2')
             edit_form.save()
             return HttpResponseRedirect(reverse('auth:edit'))
+        print('5')
     else:
+        print('3')
         edit_form = ShopUserEditForm(instance=request.user)
 
     content = {
-        'title': 'редактирование',
+        'title': title,
         'edit_form': edit_form
     }
 
