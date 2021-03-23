@@ -1,40 +1,40 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
-{% block content %}
+
+{% block menu %}
     <div class="slider">
         <div class="header clearfix">
-            <a href="index.html" class="logo"></a>
-
-                {% include 'mainapp/includes/inc_menu.html' %}
-
-            <a href="#" class="search"></a>
-            <a href="#" class="basket"></a>
+            {% include 'mainapp/includes/inc_menu.html' %}
         </div>
         <div class="text-slider">
             <h3 class="green">тенденции</h3>
             <h3 class="big"> удобные стулья</h3>
             <p>Новый уровень комфорта. Отличные характеристики.</p>
-            <a href="#" class="button-order">заказать <img src="{% static 'img/arrow.png' %}" alt=""></a>
+            <a href="{% url 'products:index' %}" class="button-order">заказать <img src="{% static 'img/arrow.png' %}" alt=""></a>
         </div>
         <div class="navi">
             <a href="#"></a><a href="#"></a><a href="#"></a>
         </div>
     </div>
+{% endblock %}
 
+{% block content %}
     <div class="featured">
         {% include 'mainapp/includes/inc_featured-menu.html' %}
-        <a class="explore" href="#">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
+        <a class="explore" href="{% url 'products:category' 0 %}">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
         <div class="clearfix">
         </div>
         <div class="tab-content">
             {% for product in products %}
                 <div class="block">
-                    <a href='#'>
-                        <img src="/media/{{ product.image }}" alt={{ product.name}}>
+                    <a href='{% url 'products:product' product.pk %}'>
+                        <img src="/media/{{ product.image }}" alt={{ product.short_desc }}>
                         <div class="text">
                             <img src="{% static 'img/icon-hover.png' %}" alt={{ product.name }}>
-                            <h4>{{ product.name }}</h4>
-                            <p>{{ product.short_desc }}</p>
+                            <h3>Категория: {{ product.category.name }}</h3>
+                            <h4>Название: {{ product.name }}</h4>
+                            <p>Цена: {{ product.price }}</p>
+                            <p>На складе: {{ product.quantity }}</p>
                         </div>
                     </a>
                 </div>

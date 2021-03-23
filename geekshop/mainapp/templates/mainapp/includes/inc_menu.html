@@ -1,3 +1,4 @@
+<a href="{% url 'main' %}" class="logo"></a>
 <ul class="menu">
     <li>
         <a href="{% url 'main' %}" {% if 'main' in request.resolver_match.url_name %}class="active"{% endif %}>
@@ -5,8 +6,8 @@
         </a>
     </li>
     <li>
-        <a href="{% url 'products:products' %}"
-           {% if 'products' in request.resolver_match.route %}class="active"{% endif %}>
+        <a href="{% url 'products:index' %}"
+           {% if 'products' in request.resolver_match.namespace %}class="active"{% endif %}>
             продукты
         </a>
     </li>
@@ -23,13 +24,20 @@
                 {{ user.first_name|default:"Пользователь" }}
             </a>
         </li>
+        {% if user.is_superuser %}
+            <li>
+                <a href="{% url 'adminapp:user_read' %}">
+                    {{ user.first_name|default:'Пользователь' }}
+                    админка
+                </a>
+            </li>
+        {% endif %}
         <li>
             <a href="{% url 'auth:logout' %}">
                 выход
             </a>
         </li>
     {% else %}
-
         <li>
             <a href="{% url 'auth:login' %}">
                 вход
@@ -37,3 +45,12 @@
         </li>
     {% endif %}
 </ul>
+<a href="#" class="search"></a>
+<a href="{% url 'basket:view' %}" class="basket">
+                <span>
+                    {% if basket %}
+                        {{ basket.0.total_cost|floatformat:0 }}&nbsp;руб
+                        ({{ basket.0.total_quantity }}&nbsp;шт)
+                    {% endif %}
+                </span>
+</a>
