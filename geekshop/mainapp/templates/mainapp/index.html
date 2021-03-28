@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block menu %}
     <div class="slider">
@@ -25,7 +26,7 @@
         <div class="clearfix">
         </div>
         <div class="tab-content">
-            {% for product in products %}
+            {% for product in products|only_active %}
                 <div class="block">
                     <a href='{% url 'products:product' product.pk %}'>
                         <img src="/media/{{ product.image }}" alt={{ product.short_desc }}>

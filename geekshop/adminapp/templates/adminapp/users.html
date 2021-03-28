@@ -1,15 +1,34 @@
 {% extends 'adminapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block content %}
+    <div class="text-center">
+        <span class="text-warning">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current-app">
+                Page{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"> next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
     <div class="users_list">
         <button class="new_user">
             <a href="{% url 'adminapp:user_create' %}">новый пользователь</a>
 
         </button>
-        {% for object in objects %}
+        {% for object in object_list %}
             <div class="user_record | {% if not object.is_active %}not_active{% endif %}">
-                <img src="/media/{{ object.avatar|default:'/users_avatars/default_avatar.png' }}" alt="img"/>
+                {#                <img src="/media/{{ object.avatar|default:'/users_avatars/default_avatar.png' }}" alt="img"/>#}
+                <img src="{{ object.avatar|media_for_users }}" alt="img"/>
                 <div class="user_role">
                     {% if object.is_superuser %}
                         администратор
