@@ -1688,3 +1688,7 @@ td:first-child {
 .related-products a:hover .text{
 	display: block;
 }
+
+.not_active {
+    opacity: 0.5;
+}

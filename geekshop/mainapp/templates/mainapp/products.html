@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block menu %}
     <div class="hero-white">
@@ -57,10 +58,10 @@
         <div class="related">
             <div class="title clearfix">
                 <h2>Похожие продукты</h2>
-                <a class="explore" href="#">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
+                <a class="explore" href="{% url 'products:category' 0 %}">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
             </div>
             <div class="related-products clearfix">
-                {% for product in same_products %}
+                {% for product in same_products|only_active %}
                     <div class="block">
                         <a href="{% url 'products:product' product.pk %}"><img src="/media/{{ product.image }}" alt={{ product.short_desc }}>
                             <div class="text">

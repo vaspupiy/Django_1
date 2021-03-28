@@ -8,8 +8,8 @@
                 новая категория
             </a>
         </button>
-        {% for object in objects %}
-            <div class="category_record">
+        {% for object in object_list %}
+            <div class="category_record {% if not object.is_active %}not_active{% endif %}">
                 <div class="category_name">
                     {{ object.name|title }}
                 </div>

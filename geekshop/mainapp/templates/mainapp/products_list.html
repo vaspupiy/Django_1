@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block menu %}
     <div class="hero-white">
@@ -17,15 +18,29 @@
         </div>
 
         <div class="products_list">
+
             <div class="title clearfix">
                 <h2>
                     Категория: "{{ category.name|title }}"
                 </h2>
             </div>
-            <div class="category-products clearfix">
+            <div class="pagination">
+                {% if products.has_previous %}
+                    <a href="{% url 'products:category' category.pk %}?p={{ products.previous_page_number }}">
+                        < </a>
+                {% endif %}
 
+                <span class="current">
+                        страница {{ products.number }} из {{ products.paginator.num_pages }}
+                    </span>
+
+                {% if products.has_next %}
+                    <a href="{% url 'products:category' category.pk %}?p={{ products.next_page_number }}"> > </a>
+                {% endif %}
+            </div>
+            <div class="category-products clearfix">
                 {% for product in products %}
-                    <div class="block">
+                    <div class="block {% if not product.is_active %}not_active{% endif %}">
                         <a href="{% url 'products:product' product.pk %}">
                             <img src="/media/{{ product.image }}" alt={{ product.name }}>
                             <div class="text">
@@ -36,7 +51,6 @@
                         </a>
                     </div>
                 {% endfor %}
-
             </div>
         </div>
     </div>
